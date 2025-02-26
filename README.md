@@ -64,6 +64,17 @@ You can download the latest release from the **[Releases](https://github.com/tro
 
 ---
 
+## **📥 How to Install**
+📱 **Visualizer is distributed as a signed Android APK file**.  
+To install it on your device:  
+
+1️⃣ **Download the APK file** to your Android device.  
+2️⃣ **Enable "Install applications from unknown sources"** in your device settings.  
+3️⃣ Use a **file manager** to locate the APK.  
+4️⃣ **Tap the APK file** to install it. 
+
+---
+
 ### **🔧 Contributing**
 If you’d like to contribute, feel free to submit a **pull request** or open an **issue** for suggestions and bug reports.  
 
