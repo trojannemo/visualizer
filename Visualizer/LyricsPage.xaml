@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="Visualizer.LyricsPage"
+             BackgroundColor="LightGray">
+
+    <NavigationPage.HasNavigationBar>False</NavigationPage.HasNavigationBar>
+
+    <ContentPage.Background>
+        <LinearGradientBrush>
+            <GradientStop Color="#E3F2FD" Offset="0.0"/>
+            <!-- Lightest at top -->
+            <GradientStop Color="#BBDEFB" Offset="1.0"/>
+            <!-- Darker at bottom -->
+        </LinearGradientBrush>
+    </ContentPage.Background>
+    
+    <Grid RowDefinitions="Auto, *, Auto" ColumnDefinitions="*, Auto">
+
+        <StackLayout Grid.Row="0" Grid.Column="0" Spacing="5" Padding="10, 5, 0, 0">
+            <Label x:Name="lblArtist" FontSize="24" TextColor="Black" FontAttributes="Bold" Margin="0,5,0,0"/>
+            <Label x:Name="lblTitle" FontSize="20" TextColor="Black"/>
+        </StackLayout>
+
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Image x:Name="imgCover"
+                   Source="default_cover.png"
+                   WidthRequest="200" 
+                   HeightRequest="200"
+                   Aspect="AspectFill"
+                   BackgroundColor="Gray">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnImageTapped" />
+                </Image.GestureRecognizers>
+            </Image>
+        </Grid>
+
+        <CollectionView x:Name="LyricsCollectionView"
+                        Grid.Row="1" Grid.ColumnSpan="2"
+                        SelectionMode="None"
+                        VerticalScrollBarVisibility="Always">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Label Text="{Binding}" FontSize="16" Padding="10,5" TextColor="Black"/>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Label Grid.Row="2" Grid.ColumnSpan="2"
+       Text="Lyrics provided by Lyrics.ovh"
+       FontSize="16"
+       TextColor="DarkGray"
+       HorizontalOptions="Center"
+       Padding="0,5,0,5"/>
+
+    </Grid>
+</ContentPage>

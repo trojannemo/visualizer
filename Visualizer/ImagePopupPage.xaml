@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Visualizer.ImagePopupPage"
+             BackgroundColor="LightGray">
+
+    <ContentPage.Background>
+        <LinearGradientBrush>
+            <GradientStop Color="#E3F2FD" Offset="0.0"/>
+            <!-- Lightest at top -->
+            <GradientStop Color="#BBDEFB" Offset="1.0"/>
+            <!-- Darker at bottom -->
+        </LinearGradientBrush>
+    </ContentPage.Background>
+    
+    <Grid>
+        <Image x:Name="FullSizeImage"
+               Aspect="AspectFit"
+               VerticalOptions="Center"
+               HorizontalOptions="Center" />
+
+        <Button Text="✖"
+                FontSize="24"
+                BackgroundColor="Transparent"
+                TextColor="Black"
+                Padding="10"
+                Clicked="OnCloseTapped"
+                VerticalOptions="Start"
+                HorizontalOptions="End"/>
+    </Grid>
+</ContentPage>

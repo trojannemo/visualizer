@@ -1,0 +1,468 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.Maui.Controls;assembly=SkiaSharp.Views.Maui.Controls"             
+             x:Class="Visualizer.MainPage"
+             BackgroundColor="LightGray">
+
+    <NavigationPage.HasNavigationBar>False</NavigationPage.HasNavigationBar>
+
+    <ContentPage.Background>
+        <LinearGradientBrush>
+            <GradientStop Color="#E3F2FD" Offset="0.0"/>
+            <!-- Lightest at top -->
+            <GradientStop Color="#BBDEFB" Offset="1.0"/>
+            <!-- Darker at bottom -->
+        </LinearGradientBrush>
+    </ContentPage.Background>
+    
+    <Grid RowDefinitions="Auto, Auto, 2, Auto, Auto, 10, 2, Auto">
+
+        <!-- HEADER ROW -->
+        <Grid Grid.Row="0" x:Name="MetadataGrid" SizeChanged="OnGridSizeChanged" ColumnDefinitions="2*, Auto">
+            <VerticalStackLayout Grid.Column="0" Padding="0">
+                <Label x:Name="ArtistLabel"
+                       Text="Artist Name"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="Black"
+                       Margin="10,5,0,0"/>
+                <Label x:Name="SongTitleLabel"
+                       Text="Song Title"
+                       FontSize="20"
+                       TextColor="Black"
+                       Margin="10,0,0,0"/>
+                <Label x:Name="AlbumLabel"
+                       Text="Album Name"
+                       FontSize="16"
+                       TextColor="Black"
+                       Margin="10,5,0,0"/>
+                <Label x:Name="ReleaseYearLabel"
+                       Text="Year Released:"
+                       FontSize="14"
+                       TextColor="Black"
+                       Margin="10,10,0,0"/>
+                <Label x:Name="TrackNumberLabel"
+                       Text="Track #:"
+                       FontSize="14"
+                       TextColor="Black"
+                       Margin="10,5,0,0"/>
+                <Label x:Name="GenreLabel"
+                       Text="Genre:"
+                       FontSize="14"
+                       TextColor="Black"
+                       Margin="10,5,0,0"/>
+                <Label x:Name="SubGenreLabel"
+                       Text="Subgenre:"
+                       FontSize="14"
+                       TextColor="Black"
+                       Margin="10,5,0,0"/>
+                <Label x:Name="RatingLabel"
+                       Text="Rating: "
+                       FontSize="14"
+                       TextColor="Black"
+                       Margin="10,5,0,0"/>
+            </VerticalStackLayout>
+
+            <Image x:Name="AlbumArtImage"
+                   Source="default_cover.png"
+                   WidthRequest="210"
+                   HeightRequest="210"
+                   Grid.Column="1"
+                   Margin="0"
+                   VerticalOptions="Start"
+                   GestureRecognizers="{TapGestureRecognizer Tapped='OnAlbumArtTapped'}"/>
+        </Grid>      
+        
+        <!-- Instrument Difficulty Layout -->
+        <Grid Grid.Row="1" x:Name="InstrumentGrid" SizeChanged="OnGridSizeChanged" VerticalOptions="FillAndExpand" Padding="10" RowSpacing="10">
+            <Grid.RowDefinitions>
+                <!-- <RowDefinition Height="2"/>
+                Spacer to move first row down -->
+                <RowDefinition Height="Auto"/>
+                <!-- Guitar + Drums -->
+                <RowDefinition Height="Auto"/>
+                <!-- Bass + Vocals -->
+                <RowDefinition Height="Auto"/>
+                <!-- Keys -->
+                <RowDefinition Height="*"/>
+                <!-- Empty space for audio controls -->
+            </Grid.RowDefinitions>
+
+            <!-- Guitar (Left-Aligned) & Drums (Right-Aligned) -->
+            <Grid Grid.Row="1" ColumnDefinitions="Auto, Auto, *, Auto, Auto" Margin="0">
+                <!-- Guitar -->
+                <Grid Grid.Column="0">
+                    <Image x:Name="imgGuitar" Source="guitar.png" WidthRequest="50" HeightRequest="50"/>
+                    <Image x:Name="proGuitar" Source="pguitar.png" WidthRequest="50" HeightRequest="50"
+                   IsVisible="False" Opacity="1"/>
+                </Grid>
+                <Image x:Name="guitarDifficulty" Source="diff0.png" WidthRequest="110" HeightRequest="33"
+               Grid.Column="1" Margin="10,0,0,0"/>
+
+                <!-- Drums (Right-Aligned) -->
+                <Grid Grid.Column="3">
+                    <Image x:Name="imgDrums" Source="drums.png" WidthRequest="50" HeightRequest="50" Margin="0,0,10,0"/>
+                    <Image x:Name="drums2X" Source="drums2x.png" WidthRequest="50" HeightRequest="50"
+                   IsVisible="False" Opacity="1" Margin="0,0,10,0"/>
+                </Grid>
+                <Image x:Name="drumsDifficulty" Source="diff0.png" WidthRequest="110" HeightRequest="33"
+               Grid.Column="4" Margin="0,0,0,0"/>
+            </Grid>
+
+            <!-- Bass (Left-Aligned) & Vocals (Right-Aligned) -->
+            <Grid Grid.Row="2" ColumnDefinitions="Auto, Auto, *, Auto, Auto" Margin="0">
+                <!-- Bass -->
+                <Grid Grid.Column="0">
+                    <Image x:Name="imgBass" Source="bass.png" WidthRequest="50" HeightRequest="50"/>
+                    <Image x:Name="proBass" Source="pbass.png" WidthRequest="50" HeightRequest="50"
+                   IsVisible="False" Opacity="1"/>
+                </Grid>
+                <Image x:Name="bassDifficulty" Source="diff0.png" WidthRequest="110" HeightRequest="33"
+               Grid.Column="1" Margin="10,0,0,0"/>
+
+                <!-- Vocals (Right-Aligned) -->
+                <Grid Grid.Column="3">
+                    <Image x:Name="imgVocals" Source="mic1.png" WidthRequest="50" HeightRequest="50" Margin="0,0,10,0"/>
+                </Grid>
+                <Image x:Name="vocalsDifficulty" Source="diff0.png" WidthRequest="110" HeightRequest="33"
+               Grid.Column="4" Margin="0,0,0,0"/>
+            </Grid>
+
+            <!-- Keys (Properly Spaced Now) -->
+            <Grid Grid.Row="3" ColumnDefinitions="Auto, Auto, *, Auto, Auto" Margin="0,0,0,10">
+                <Label x:Name="AuthorLabel"
+                   Text="Authored by..."
+                   FontSize="16"                   
+                   TextColor="Black"
+                   Grid.Column="0"
+                       LineBreakMode="WordWrap"
+                       WidthRequest="200"
+                       Grid.ColumnSpan="3"
+                       VerticalTextAlignment="Center"
+                       HorizontalTextAlignment="Start"
+                       GestureRecognizers="{TapGestureRecognizer Tapped='OnAuthorTapped'}"/>      
+                <Grid Grid.Column="3">
+                    <Image x:Name="imgKeys" Source="keys.png" WidthRequest="50" HeightRequest="50" Margin="0,0,10,0"/>
+                    <Image x:Name="proKeys" Source="pkeys.png" WidthRequest="50" HeightRequest="50"
+                   IsVisible="False" Opacity="1"/>
+                </Grid>
+                <Image x:Name="keysDifficulty" Source="diff0.png" WidthRequest="110" HeightRequest="33"
+               Grid.Column="4" Margin="0,0,0,0"/>
+            </Grid>
+        </Grid>
+
+        <BoxView x:Name="DividerBox" Grid.Row="2" HeightRequest="2" WidthRequest="200" BackgroundColor="DarkGray" HorizontalOptions="Center"/>
+        
+        <Grid Grid.Row="3" x:Name="VisualsGrid" Padding="0">          
+            <!-- Spectrum Visualization Canvas -->
+            <skia:SKCanvasView x:Name="SpectrumCanvas"
+                       PaintSurface="OnSpectrumPaintSurface"
+                       VerticalOptions="FillAndExpand"
+                       HorizontalOptions="CenterAndExpand"
+                       SizeChanged="OnCanvasSizeChanged"
+                       GestureRecognizers="{TapGestureRecognizer Tapped='OnSpectrumTapped'}"/>
+
+            <ActivityIndicator x:Name="loadingIndicator"
+               IsRunning="False"
+               IsVisible="False"
+               Color="Black"
+               WidthRequest="50"
+               HeightRequest="50"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"/>
+        </Grid>      
+        
+        <!-- Bottom Half of the Center Space -->
+        <Grid x:Name="PlaybackGrid" Grid.Row="4" Padding="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <!-- Track Progress Bar -->
+                <RowDefinition Height="Auto"/>
+                <!-- Playback Controls -->
+                <RowDefinition Height="*"/>
+                <!-- Empty space before instruments -->
+                <RowDefinition Height="Auto"/>
+                <!-- Instrument Controls -->                
+            </Grid.RowDefinitions>
+
+            <!-- Track Progress Bar -->
+            <Grid Grid.Row="0" ColumnDefinitions="Auto, *, Auto" Padding="10">
+                <!-- Current Time Label -->
+                <Label x:Name="lblCurrentTime"
+               Text="0:00"
+               FontSize="14"
+               TextColor="Black"
+               VerticalOptions="Center"
+              HorizontalOptions="CenterAndExpand"
+                       HorizontalTextAlignment="Center"
+               Grid.Column="0"
+               Margin="0"
+               TranslationX="-12"
+               WidthRequest="50"/>
+
+                <!-- Line Image (Track Progress) -->
+                <Grid Grid.Column="1" HorizontalOptions="Center">
+                    <Image x:Name="imgTrackLine"
+                   Source="line.png"
+                   WidthRequest="300"
+                   HeightRequest="16"
+                           VerticalOptions="Center"
+                   HorizontalOptions="Center"/>
+
+                    <!-- Seek Slider (Movable) -->
+                    <Image x:Name="imgSeekSlider"
+                   Source="slider.png"
+                   WidthRequest="30"
+                   HeightRequest="30"
+                   VerticalOptions="Center"
+                   TranslationX="-142">
+                        <Image.GestureRecognizers>
+                            <PanGestureRecognizer PanUpdated="OnSeekTapped"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <!-- Centered on the left of track -->
+                </Grid>
+
+                <!-- Song Duration Label -->
+                <Label x:Name="lblSongLength"
+               Text="0:00"
+               FontSize="14"
+               TextColor="Black"
+               VerticalOptions="Center"  
+               HorizontalOptions="CenterAndExpand"
+               HorizontalTextAlignment="Center"
+               Grid.Column="2"
+               Margin="0"
+               TranslationX="12"
+                WidthRequest="50"       />
+            </Grid>
+
+            <!-- Playback Controls (Centered Under Track) -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Image x:Name="imgPlay"
+           Source="play.png"
+           HeightRequest="40"
+           Aspect="AspectFit"
+           GestureRecognizers="{TapGestureRecognizer Tapped='OnPlayTapped'}"
+           Grid.Column="2"
+           HorizontalOptions="Center"/>
+
+                <Image x:Name="imgStop"
+           Source="stop.png"
+           HeightRequest="40"
+           Aspect="AspectFit"
+           GestureRecognizers="{TapGestureRecognizer Tapped='OnStopTapped'}"
+           Grid.Column="3"
+           HorizontalOptions="Center"/>
+
+                <Image x:Name="imgAutoplay"
+           Source="autoplay.png"
+           HeightRequest="40"
+           Aspect="AspectFit"
+           GestureRecognizers="{TapGestureRecognizer Tapped='OnAutoplayTapped'}"
+           Grid.Column="4"
+           HorizontalOptions="Center"/>
+
+                <Image x:Name="imgLoop"
+           Source="loop_off.png"
+           HeightRequest="40"
+           Aspect="AspectFit"
+           GestureRecognizers="{TapGestureRecognizer Tapped='OnLoopTapped'}"
+           Grid.Column="5"
+           HorizontalOptions="Center"/>
+
+                <Image x:Name="imgPreview"
+           Source="dopreview.png"
+           HeightRequest="40"
+           Aspect="AspectFit"
+           GestureRecognizers="{TapGestureRecognizer Tapped='OnPreviewTapped'}"
+           Grid.Column="6"
+           HorizontalOptions="Center"/>
+            </Grid>
+
+            <BoxView x:Name="SpacerBox" Grid.Row="2" HeightRequest="10" BackgroundColor="Transparent" HorizontalOptions="CenterAndExpand"/>
+            
+            <!-- Instrument Toggles (Centered Below Playback Controls) -->
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Image x:Name="imgDrums2"
+           Source="drums2.png"
+           HeightRequest="50"
+           Aspect="AspectFit"
+           GestureRecognizers="{TapGestureRecognizer Tapped='OnDrumsTapped'}"
+           Grid.Column="0"
+           HorizontalOptions="Center"/>
+
+                <Image x:Name="imgBass2"
+           Source="bass2.png"
+           HeightRequest="50"
+           Aspect="AspectFit"
+           GestureRecognizers="{TapGestureRecognizer Tapped='OnBassTapped'}"
+           Grid.Column="1"
+           HorizontalOptions="Center"/>
+
+                <Image x:Name="imgGuitar2"
+           Source="guitar2.png"
+           HeightRequest="50"
+           Aspect="AspectFit"
+           GestureRecognizers="{TapGestureRecognizer Tapped='OnGuitarTapped'}"
+           Grid.Column="2"
+           HorizontalOptions="Center"/>
+
+                <Image x:Name="imgKeys2"
+           Source="keys2.png"
+           HeightRequest="50"
+           Aspect="AspectFit"
+           GestureRecognizers="{TapGestureRecognizer Tapped='OnKeysTapped'}"
+           Grid.Column="3"
+           HorizontalOptions="Center"/>
+
+                <Image x:Name="imgVocals2"
+           Source="vocals.png"
+           HeightRequest="50"
+           Aspect="AspectFit"
+           GestureRecognizers="{TapGestureRecognizer Tapped='OnVocalsTapped'}"
+           Grid.Column="4"
+           HorizontalOptions="Center"/>
+
+                <Image x:Name="imgCrowd"
+           Source="crowd.png"
+           HeightRequest="50"
+           Aspect="AspectFit"
+           GestureRecognizers="{TapGestureRecognizer Tapped='OnCrowdTapped'}"
+           Grid.Column="5"
+           HorizontalOptions="Center"/>
+
+                <Image x:Name="imgBacking"
+           Source="backing.png"
+           HeightRequest="50"
+           Aspect="AspectFit"
+           GestureRecognizers="{TapGestureRecognizer Tapped='OnBackingTapped'}"
+           Grid.Column="6"
+           HorizontalOptions="Center"/>
+            </Grid>
+        </Grid>
+
+        <BoxView x:Name="SpacerBox2" Grid.Row="5" HeightRequest="10" BackgroundColor="Transparent" HorizontalOptions="CenterAndExpand"/>
+
+        <BoxView x:Name="DividerBox2" Grid.Row="6" HeightRequest="2" WidthRequest="200" BackgroundColor="DarkGray" HorizontalOptions="Center"/>
+
+        <!-- FOOTER ROW -->
+        <Grid x:Name="FooterGrid" Grid.Row="7" Padding="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <!-- Folder Icon -->
+                <ColumnDefinition Width="*" />
+                <!-- RV -->
+                <ColumnDefinition Width="*" />
+                <!-- Lyrics -->
+                <ColumnDefinition Width="*" />
+                <!-- YouTube -->
+                <ColumnDefinition Width="*" />
+                <!-- Share -->
+                <ColumnDefinition Width="*" />
+                <!-- Upload -->
+                <ColumnDefinition Width="Auto"/>
+                <!-- About Icon -->
+            </Grid.ColumnDefinitions>
+
+            <!-- Left-aligned folder icon -->
+            <Image x:Name="imgFolder"
+           Source="folder.png"
+           HeightRequest="40"
+           Aspect="AspectFit"
+           IsVisible="True"
+           Margin="10"
+           Grid.Column="0"
+           HorizontalOptions="Start"
+           GestureRecognizers="{TapGestureRecognizer Tapped='OnFolderTapped'}"/>
+
+            <!-- RhythmVerse Icon -->
+            <Image x:Name="imgRV"
+           Source="rhythmverse.png"
+           HeightRequest="40"
+           Aspect="AspectFit"
+           Margin="4"
+           Grid.Column="1"
+           HorizontalOptions="Center"
+           GestureRecognizers="{TapGestureRecognizer Tapped='OnRVTapped'}"/>
+
+            <!-- Lyrics Icon -->
+            <Image x:Name="imgLyrics"
+           Source="lyrics.png"
+           HeightRequest="40"
+           Aspect="AspectFit"
+           IsVisible="False"
+           Margin="4"
+           Grid.Column="2"
+           HorizontalOptions="Center"
+           GestureRecognizers="{TapGestureRecognizer Tapped='OnLyricsTapped'}"/>
+
+            <!-- YouTube Icon -->
+            <Image x:Name="imgYouTube"
+           Source="youtube.png"
+           HeightRequest="40"
+           Aspect="AspectFit"
+           IsVisible="False"
+           Margin="4"
+           Grid.Column="3"
+           HorizontalOptions="Center"
+           GestureRecognizers="{TapGestureRecognizer Tapped='OnYouTubeTapped'}"/>
+
+            <!-- Share Icon -->
+            <Image x:Name="imgShare"
+           Source="share.png"
+           HeightRequest="40"
+           Aspect="AspectFit"
+           IsVisible="True"
+           Margin="4"
+           Grid.Column="4"
+           HorizontalOptions="Center"
+           GestureRecognizers="{TapGestureRecognizer Tapped='OnShareTapped'}"/>
+
+            <!-- Upload Icon -->
+            <Image x:Name="imgUpload"
+           Source="upload.png"
+           HeightRequest="40"
+           Aspect="AspectFit"
+           IsVisible="True"
+           Margin="4"
+           Grid.Column="5"
+           HorizontalOptions="Center"
+           GestureRecognizers="{TapGestureRecognizer Tapped='OnUploadTapped'}"/>
+
+            <!-- Right-aligned about icon -->
+            <Image x:Name="imgAbout"
+           Source="about.png"
+           HeightRequest="40"
+           Aspect="AspectFit"
+           IsVisible="True"
+           Margin="10"
+           Grid.Column="6"
+           HorizontalOptions="End"
+           GestureRecognizers="{TapGestureRecognizer Tapped='OnAboutTapped'}"/>
+        </Grid>
+    </Grid>
+</ContentPage>

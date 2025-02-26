@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Visualizer.AboutPage"
+             Title="About"
+             BackgroundColor="White">
+
+    <NavigationPage.HasNavigationBar>False</NavigationPage.HasNavigationBar>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20">
+            <Label Text="Visualizer v1.0.0"
+               FontSize="24"
+               FontAttributes="Bold"
+               TextColor="Black"
+               HorizontalOptions="Center"/>
+
+            <Label Text="Developed by TrojanNemo"
+                   FontSize="18"                   
+                    TextColor="Black"
+                   HorizontalOptions="Center"/>
+
+            <Label Text="© 2025"
+               FontSize="18"
+                   
+               TextColor="Black"
+               HorizontalOptions="Center"/> 
+
+            <Label Text="About"
+               FontSize="22"                   
+               TextColor="Black"
+               FontAttributes="Bold"
+               Margin="0,20,0,0"/>
+
+            <Label x:Name="aboutText"
+               FontSize="16"
+               LineBreakMode="WordWrap"
+                   
+               TextColor="Black"/>
+            
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
