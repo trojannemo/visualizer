@@ -2,7 +2,7 @@
 Developed by TrojanNemo<br>
 © 2025<br>
 
-![Visualizer Main Screen](https://nemosnautilus.com/android/visualizer_main.jpg)![Visualizer Lyrics Screen](https://nemosnautilus.com/android/visualizer_lyrics.jpg)
+![Visualizer Main Screen](https://nemosnautilus.com/android/visualizer.jpg)![Visualizer Lyrics Screen](https://nemosnautilus.com/android/visualizer_lyrics.jpg)
 
 ---
 
