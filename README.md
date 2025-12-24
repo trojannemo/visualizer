@@ -2,6 +2,10 @@
 Developed by TrojanNemo<br>
 © 2025<br>
 
+![Visualizer Main Screen](https://nemosnautilus.com/android/visualizer_main.jpg)![Visualizer Lyrics Screen](https://nemosnautilus.com/android/visualizer_lyrics.jpg)
+
+---
+
 This is a **simplified Android port** of my **Windows application, Visualizer**, which is part of the [**Nautilus tool suite**](https://github.com/trojannemo/Nautilus).  
 
 Visualizer is designed to **read Rock Band song files** in **Xbox 360 CON/LIVE format** and perform the following functions:
